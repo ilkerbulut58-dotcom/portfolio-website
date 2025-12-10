@@ -1,0 +1,29 @@
+/* Custom styles for dark mode portfolio */
+:root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --border: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+}
+
+.dark {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Tailwind custom classes */
+.bg-background { background-color: hsl(var(--background)); }
+.text-foreground { color: hsl(var(--foreground)); }
+.bg-primary { background-color: hsl(var(--primary)); }
+.text-primary { color: hsl(var(--primary)); }
+.text-primary-foreground { color: hsl(var(--primary-foreground)); }
+.bg-secondary { background-color: hsl(var(--secondary)); }
+.border-border { border-color: hsl(var(--border)); }
+.text-muted-foreground { color: hsl(var(--muted-foreground)); }
