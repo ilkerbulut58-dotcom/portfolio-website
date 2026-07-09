@@ -72,12 +72,8 @@ CREATE TABLE IF NOT EXISTS blog_comments (
 -- INITIAL DATA
 -- ============================================
 
--- Standard-Admin-User erstellen
--- Username: admin
--- Passwort: admin123
--- WICHTIG: Ändern Sie das Passwort nach dem ersten Login!
-INSERT IGNORE INTO blog_users (username, email, password, full_name) 
-VALUES ('admin', 'admin@blog.de', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator');
+-- Admin-User: php config/setup_database.php ausführen (empfohlen)
+-- Oder manuell mit eigenem bcrypt-Hash einfügen
 
 -- Standard-Kategorien erstellen
 INSERT IGNORE INTO blog_categories (name, slug, description) VALUES 
@@ -93,10 +89,8 @@ INSERT IGNORE INTO blog_categories (name, slug, description) VALUES
 -- ============================================
 -- Ihr Blog-System ist jetzt einsatzbereit!
 -- 
--- Admin-Login:
--- URL: https://ihre-domain.de/admin/
--- Username: admin
--- Passwort: admin123
+-- Admin-Login: php config/setup_database.php
+-- Username: admin — Passwort beim Setup setzen
 -- 
 -- Nächste Schritte:
 -- 1. Admin-Passwort ändern

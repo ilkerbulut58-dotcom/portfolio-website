@@ -28,7 +28,7 @@
                 <div class="ml-3">
                     <h3 class="text-sm font-medium text-yellow-800">Demo nicht verfügbar in Replit</h3>
                     <div class="mt-2 text-sm text-yellow-700">
-                        <p>Die Ionos MySQL-Datenbank (db5018866111.hosting-data.io) ist von Replit aus nicht erreichbar. Dies ist normal und erwartet.</p>
+                        <p>Die externe Ionos MySQL-Datenbank ist von Replit aus nicht erreichbar. Dies ist normal und erwartet.</p>
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
                 <li><strong>2. Datenbank einrichten:</strong> SQL-Script (<code class="bg-blue-100 px-2 py-1 rounded">IONOS_SETUP.sql</code>) in phpMyAdmin ausführen</li>
                 <li><strong>3. Konfiguration:</strong> DB-Zugangsdaten in <code class="bg-blue-100 px-2 py-1 rounded">config/database.php</code> eintragen</li>
                 <li><strong>4. Testen:</strong> Website und Admin-Panel aufrufen</li>
-                <li><strong>5. Sichern:</strong> Admin-Passwort ändern (Standard: admin/admin123)</li>
+                <li><strong>5. Sichern:</strong> Admin-Passwort sofort nach Setup ändern</li>
             </ol>
         </div>
         

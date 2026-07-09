@@ -6,7 +6,7 @@ Diese Anleitung zeigt Ihnen Schritt für Schritt, wie Sie Ihr Blog-System auf Io
 
 - Ionos Shared Hosting Account
 - FTP-Zugangsdaten
-- MySQL-Datenbank (bereits vorhanden: dbs14888922)
+- MySQL-Datenbank (im Ionos-Panel anlegen)
 - PHP 7.4+ und MySQL 5.7+ (bereits auf Ionos verfügbar)
 
 ## 🔄 Schritt 1: Dateien hochladen
@@ -46,7 +46,7 @@ Diese Anleitung zeigt Ihnen Schritt für Schritt, wie Sie Ihr Blog-System auf Io
 1. **In Ionos-Webhosting-Panel:**
    - Gehen Sie zu "Datenbanken & Webspace"
    - Klicken Sie auf "phpMyAdmin verwalten"
-   - Wählen Sie Ihre Datenbank: `dbs14888922`
+   - Wählen Sie Ihre Datenbank im Ionos-Panel
 
 2. **SQL-Script ausführen:**
    - Klicken Sie auf "SQL" Tab
@@ -134,10 +134,8 @@ CREATE TABLE IF NOT EXISTS blog_comments (
     INDEX idx_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Standard-Admin-User erstellen (Passwort: admin123)
--- Hinweis: $2y$10$... ist der bcrypt-Hash für "admin123"
-INSERT IGNORE INTO blog_users (username, email, password, full_name) 
-VALUES ('admin', 'admin@blog.de', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator');
+-- Admin-User: php config/setup_database.php ausführen (generiert sicheres Passwort)
+-- Oder manuell: INSERT mit password_hash('IHR_PASSWORT', PASSWORD_BCRYPT)
 
 -- Standard-Kategorien erstellen
 INSERT IGNORE INTO blog_categories (name, slug, description) VALUES 
@@ -156,30 +154,25 @@ Da Ionos Shared Hosting keine `.env`-Dateien unterstützt, bearbeiten Sie `confi
 ```php
 <?php
 class Database {
-    private $host = 'db5018866111.hosting-data.io';
-    private $db_name = 'dbs14888922';
-    private $username = 'IHR_DB_BENUTZER';  // ← HIER ÄNDERN
-    private $password = 'IHR_DB_PASSWORT';  // ← HIER ÄNDERN
+    private $host = getenv('DB_HOST') ?: 'your-db-host.example';
+    private $db_name = getenv('DB_NAME') ?: 'your_database_name';
+    private $username = getenv('DB_USER') ?: 'IHR_DB_BENUTZER';
+    private $password = getenv('DB_PASSWORD') ?: 'IHR_DB_PASSWORT';
     private $conn;
     
     // ... Rest bleibt gleich
 }
 ```
 
-**Alternative:** Verwenden Sie eine separate Config-Datei außerhalb von `/public_html/`:
+**Alternative:** Verwenden Sie `database.local.php` (gitignored) — siehe `database.example.php`.
 
 ```php
-// config/credentials.php (außerhalb von public_html)
+// config/credentials.php (außerhalb von public_html, nicht committen)
 <?php
-define('DB_HOST', 'db5018866111.hosting-data.io');
-define('DB_NAME', 'dbs14888922');
+define('DB_HOST', 'your-db-host.example');
+define('DB_NAME', 'your_database_name');
 define('DB_USER', 'ihr_db_benutzer');
 define('DB_PASS', 'ihr_db_passwort');
-
-// In database.php:
-require_once __DIR__ . '/../../credentials.php'; // Pfad anpassen
-$this->host = DB_HOST;
-// etc.
 ```
 
 ## ✅ Schritt 4: Testen
@@ -193,7 +186,7 @@ $this->host = DB_HOST;
    ```
    https://ihre-domain.de/admin/
    Username: admin
-   Passwort: admin123
+   Passwort: beim Setup generiert — sofort ändern
    ```
 
 3. **Wichtig:** Ändern Sie sofort das Admin-Passwort!
@@ -233,7 +226,7 @@ $this->host = DB_HOST;
 ### Sicherheit
 
 1. **Admin-Passwort ändern:**
-   - Login mit `admin` / `admin123`
+   - Login mit `admin` und dem beim Setup generierten Passwort
    - Erstellen Sie einen neuen Admin-User
    - Löschen Sie den Standard-Admin
 

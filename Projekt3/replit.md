@@ -52,8 +52,8 @@ Ein vollständiges Blog-System mit PHP und MySQL, entwickelt für Ionos Shared H
 ### 1. Datenbank-Zugangsdaten
 
 Die Datenbank-Zugangsdaten werden über Umgebungsvariablen geladen:
-- `DB_HOST`: db5018866111.hosting-data.io
-- `DB_NAME`: dbs14888922
+- `DB_HOST`: your-db-host.example
+- `DB_NAME`: your_database_name
 - `DB_USER`: Ihr Datenbank-Benutzer
 - `DB_PASSWORD`: Ihr Datenbank-Passwort
 
@@ -74,13 +74,13 @@ php config/setup_database.php
 
 **Oder per phpMyAdmin:**
 - Öffnen Sie phpMyAdmin
-- Wählen Sie Datenbank `dbs14888922`
+- Wählen Sie Ihre Datenbank im Ionos-Panel
 - SQL-Tab → Kopieren Sie den Inhalt von `IONOS_SETUP.sql`
 - Ausführen
 
 Dies erstellt:
 - Tabellen: `blog_users`, `blog_posts`, `blog_categories`, `blog_comments`
-- Standard-Admin-User: `admin` / `admin123`
+- Standard-Admin-User: `admin` (Passwort via `setup_database.php` oder `BLOG_ADMIN_PASSWORD`)
 - Standard-Kategorien
 
 ### 4. Berechtigungen setzen
@@ -95,7 +95,7 @@ chmod 644 .htaccess
 Nach dem Setup:
 - URL: `https://ihre-domain.de/admin/`
 - Username: `admin`
-- Passwort: `admin123`
+- Passwort: beim Setup generiert — sofort ändern
 
 **WICHTIG:** Ändern Sie das Admin-Passwort sofort!
 

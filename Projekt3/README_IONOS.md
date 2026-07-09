@@ -4,7 +4,7 @@
 
 **Dieses Blog-System ist für Ionos Shared Hosting entwickelt und kann in Replit nicht vollständig getestet werden**, da:
 
-1. Die externe Ionos MySQL-Datenbank (db5018866111.hosting-data.io) von Replit aus nicht erreichbar ist
+1. Die externe Ionos MySQL-Datenbank von Replit aus nicht erreichbar ist
 2. Replit keine direkte Verbindung zu externen MySQL-Hosts erlaubt
 3. Das System zeigt eine Demo-Informationsseite in Replit
 
@@ -81,34 +81,26 @@ IONOS_SETUP.sql
 
 1. **Via phpMyAdmin (empfohlen):**
    - Öffnen Sie phpMyAdmin in Ihrem Ionos-Panel
-   - Wählen Sie Datenbank `dbs14888922`
+   - Wählen Sie Ihre Datenbank im Ionos-Panel
    - Gehen Sie zum "SQL" Tab
    - Kopieren Sie den kompletten Inhalt von `IONOS_SETUP.sql`
    - Klicken Sie auf "Ausführen"
 
 2. **Via SSH (falls verfügbar):**
    ```bash
-   mysql -u IHR_DB_USER -p dbs14888922 < IONOS_SETUP.sql
+   mysql -u IHR_DB_USER -p IHR_DB_NAME < IONOS_SETUP.sql
    ```
 
 ### Schritt 4: Datenbankverbindung konfigurieren
 
-Bearbeiten Sie `config/database.php` und ändern Sie die Konstruktor-Methode:
+Bearbeiten Sie `config/database.php` und setzen Sie Umgebungsvariablen oder `database.local.php` (siehe `database.example.php`):
 
 ```php
-public function __construct() {
-    // Für Ionos Produktion - direkte Werte
-    $this->host = 'db5018866111.hosting-data.io';
-    $this->db_name = 'dbs14888922';
-    $this->username = 'IHR_DB_BENUTZER';     // ← HIER ÄNDERN
-    $this->password = 'IHR_DB_PASSWORT';     // ← HIER ÄNDERN
-    
-    // ODER falls Ionos Umgebungsvariablen unterstützt:
-    // $this->host = getenv('DB_HOST') ?: 'db5018866111.hosting-data.io';
-    // $this->db_name = getenv('DB_NAME') ?: 'dbs14888922';
-    // $this->username = getenv('DB_USER');
-    // $this->password = getenv('DB_PASSWORD');
-}
+// Beispiel — echte Werte nur in database.local.php (gitignored)
+$this->host = getenv('DB_HOST') ?: 'your-db-host.example';
+$this->db_name = getenv('DB_NAME') ?: 'your_database_name';
+$this->username = getenv('DB_USER') ?: 'your_db_user';
+$this->password = getenv('DB_PASSWORD') ?: 'REPLACE_ME';
 ```
 
 ### Schritt 5: Testen
@@ -126,9 +118,9 @@ public function __construct() {
    https://ihre-domain.de/admin/login.php
    ```
    
-   **Standard-Zugangsdaten:**
+   **Admin-Zugang:**
    - Username: `admin`
-   - Passwort: `admin123`
+   - Passwort: beim Setup via `php config/setup_database.php` ausgeben lassen oder `BLOG_ADMIN_PASSWORD` setzen
 
 3. **Ersten Post erstellen:**
    - Nach Login → "Posts" → "Neuer Post"
@@ -179,7 +171,7 @@ blog_comments      → Kommentare
 ```
 
 **Initialdaten:**
-- 1 Admin-User (admin/admin123)
+- 1 Admin-User (Username: admin — Passwort beim Setup setzen)
 - 4 Standard-Kategorien (Technologie, Lifestyle, Reisen, Business)
 
 ## 🔧 Häufige Probleme
