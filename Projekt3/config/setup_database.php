@@ -83,13 +83,16 @@ try {
     $conn->exec($sql_comments);
     echo "✓ Tabelle 'blog_comments' erstellt\n\n";
     
-    // Erstelle Standard-Admin-User (Passwort: admin123)
-    $admin_password = password_hash('admin123', PASSWORD_BCRYPT);
+    // Erstelle Standard-Admin-User — Passwort aus Umgebung oder zufällig generiert
+    $initialPassword = getenv('BLOG_ADMIN_PASSWORD') ?: bin2hex(random_bytes(8));
+    $admin_password = password_hash($initialPassword, PASSWORD_BCRYPT);
     $stmt = $conn->prepare("INSERT IGNORE INTO blog_users (username, email, password, full_name) VALUES (?, ?, ?, ?)");
     $stmt->execute(['admin', 'admin@blog.de', $admin_password, 'Administrator']);
     
     if ($stmt->rowCount() > 0) {
-        echo "✓ Standard-Admin-User erstellt (Username: admin, Passwort: admin123)\n";
+        echo "✓ Standard-Admin-User erstellt (Username: admin)\n";
+        echo "  Einmaliges Passwort: {$initialPassword}\n";
+        echo "  Bitte sofort ändern und BLOG_ADMIN_PASSWORD auf dem Server setzen.\n";
     } else {
         echo "ℹ Admin-User existiert bereits\n";
     }
@@ -111,9 +114,7 @@ try {
     echo "=================================\n";
     echo "Datenbank-Setup abgeschlossen!\n";
     echo "=================================\n";
-    echo "Admin-Login:\n";
-    echo "Username: admin\n";
-    echo "Passwort: admin123\n";
+    echo "Admin-Login: Username admin — Passwort siehe Ausgabe oben (falls neu erstellt).\n";
     echo "=================================\n";
     
 } catch(PDOException $e) {

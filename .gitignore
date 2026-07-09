@@ -1,0 +1,13 @@
+# Local credentials — never commit
+config/database.local.php
+Projekt1/includes/config.local.php
+.env
+.env.local
+.env.production
+*.local.php
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

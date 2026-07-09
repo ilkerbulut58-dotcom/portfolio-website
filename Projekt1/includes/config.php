@@ -4,41 +4,36 @@
  * For IONOS Shared Hosting
  */
 
-// Error Reporting (set to 0 in production)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Timezone
 date_default_timezone_set('Europe/Berlin');
 
-// Base Path Configuration
 define('BASE_PATH', '/Projekt1');
 define('ROOT_DIR', __DIR__ . '/..');
 
-// Database Configuration
-// IMPORTANT: Update these with your IONOS MySQL credentials
-// Use 127.0.0.1 instead of localhost to force TCP connection (IONOS requirement)
-define('DB_HOST', 'db5018866111.hosting-data.io');
-define('DB_PORT', '3306');
-define('DB_NAME', 'dbs14888922');
-define('DB_USER', 'dbu4055229');
-define('DB_PASS', 'Cemellim!5959:');
-define('DB_CHARSET', 'utf8mb4');
+$localConfig = __DIR__ . '/config.local.php';
+if (is_file($localConfig)) {
+    require $localConfig;
+} else {
+    define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
+    define('DB_PORT', getenv('DB_PORT') ?: '3306');
+    define('DB_NAME', getenv('DB_NAME') ?: '');
+    define('DB_USER', getenv('DB_USER') ?: '');
+    define('DB_PASS', getenv('DB_PASS') ?: '');
+    define('DB_CHARSET', 'utf8mb4');
+}
 
-// Cache Configuration
 define('CACHE_ENABLED', true);
-define('CACHE_DEFAULT_TTL', 300); // 5 minutes in seconds
+define('CACHE_DEFAULT_TTL', 300);
 
-// Rate Limiting Configuration
 define('RATE_LIMIT_ENABLED', true);
-define('RATE_LIMIT_WINDOW', 60); // 60 seconds
-define('RATE_LIMIT_MAX_REQUESTS', 100); // max requests per window
+define('RATE_LIMIT_WINDOW', 60);
+define('RATE_LIMIT_MAX_REQUESTS', 100);
 
-// API Configuration
 define('API_VERSION', 'v1');
 define('ENABLE_CORS', true);
 
-// Microservices Configuration
 $MICROSERVICES = array(
     'users' => array(
         'name' => 'Users Service',
@@ -56,6 +51,3 @@ $MICROSERVICES = array(
         'endpoints' => array('/api/orders', '/api/orders/:id')
     )
 );
-
-// Response Headers - will be set per route in index.php
-// JSON headers only for API routes, HTML for dashboard
